@@ -63,7 +63,7 @@ jobs:
         python-version: ${{fromJSON(inputs.python-version) }}
         os: ${{fromJSON(inputs.runs-on) }}
         install-type: ${{fromJSON(inputs.install-type) }}
-        arch:  ${{fromJSON(inputs.arch) }}
+        arch: ${{fromJSON(inputs.arch) }}
     env:
       DEPENDS: ${{ inputs.depends }}
       EXTRA_DEPENDS: ${{ inputs.extra-depends }}
