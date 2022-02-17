@@ -13,3 +13,12 @@ jobs:
       runs-on: '["ubuntu-latest", ]'
       use-pre: true
       extra-depends: scikit_learn scipy statsmodels pandas tables
+      
+  wheeell:
+     uses: ./.github/workflows/test_template.yml
+     with:
+       runs-on: '["ubuntu-latest", ]'
+       python-version: '["3.9", "3.8", "3.7", "3.6"]'
+       install-type: '["wheel", ]'
+       depends : cython numpy matplotlib h5py nibabel cvxpy tqdm
+       extra-depends: scipy
