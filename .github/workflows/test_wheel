@@ -15,3 +15,4 @@ jobs:
       install-type: '["wheel", ]'
       depends : cython numpy matplotlib h5py nibabel cvxpy tqdm
       extra-depends: scipy 
+      
