@@ -8,6 +8,11 @@ on:
         type: string
         required: false
         default: '"ubuntu-latest"'
+      arch:
+        description: "select arch"
+        type: string
+        required: false
+        default: '[auto]'
       python-version:
         description: "Select Python version"
         type: string
@@ -58,6 +63,7 @@ jobs:
         python-version: ${{fromJSON(inputs.python-version) }}
         os: ${{fromJSON(inputs.runs-on) }}
         install-type: ${{fromJSON(inputs.install-type) }}
+        arch:  ${{fromJSON(inputs.arch) }}
     env:
       DEPENDS: ${{ inputs.depends }}
       EXTRA_DEPENDS: ${{ inputs.extra-depends }}
@@ -71,6 +77,10 @@ jobs:
       PRE_WHEELS: "https://pypi.anaconda.org/scipy-wheels-nightly/simple"
     steps:
     - uses: actions/checkout@v2
+    - name: Set up QEMU
+        if: ${{ matrix.arch == 'aarch64' }}
+        id: qemu
+        uses: docker/setup-qemu-action@v1
     - name: Set up Python ${{ matrix.python-version }}
       if: ${{ matrix.install-type != 'conda' }}
       uses: actions/setup-python@v2
