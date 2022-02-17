@@ -14,4 +14,5 @@ jobs:
       python-version: '["3.9", "3.8", "3.7", "3.6"]'
       install-type: '["wheel", ]'
       depends : cython numpy matplotlib h5py nibabel cvxpy tqdm
-      extra-depends: scipy 
+      extra-depends: scipy
+      
