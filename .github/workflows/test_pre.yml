@@ -25,7 +25,7 @@ jobs:
        extra-depends: scipy
        
   build_wheel_aarch64:
-    name: "Build aarch64 ${{ matrix.pyver }}"
+    name: "Build aarch64 ${{ matrix.python-version }}"
     strategy:
       matrix:
         python-version: [cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
@@ -47,7 +47,7 @@ jobs:
     - uses: docker://quay.io/pypa/manylinux2014_aarch64
       with:
         args: |
-            bash -c "export PATH=$PATH:"/opt/python/$(matrix.python-version)/bin" && \
+            bash -c "export PATH=$PATH:"/opt/python/${{matrix.python-version}}/bin" && \
             python -m pip install --upgrade pip virtualenv && \
             virtualenv $VENV_ARGS venv && \
             ./tools/ci/install_dependencies.sh && \
