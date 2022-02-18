@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   
 
-  build for many_linux:
+  wheel for many_linux:
     parameters:
       python_version:
         type: string
@@ -42,14 +42,13 @@ jobs:
 
 workflows:
   version: 2
-  python3.7:
+  build_wheel:
     jobs:
       
-      - build for many_linux:
+      - wheel for many_linux:
            matrix:
             parameters:
               python_version:
                 - "cp37-cp37m"
-                - "cp36-cp36m"
                 - "cp38-cp38"
                 - "cp39-cp39"
