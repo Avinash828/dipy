@@ -23,3 +23,34 @@ jobs:
        install-type: '["wheel", ]'
        depends : cython numpy matplotlib h5py nibabel cvxpy tqdm
        extra-depends: scipy
+       
+  build_wheel_aarch64:
+    name: "Build aarch64 ${{ matrix.pyver }}"
+    strategy:
+      matrix:
+        python-version: [cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
+        arch: [aarch64]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    env:
+      img: quay.io/pypa/manylinux2014_aarch64
+      VENV_ARGS: "--python=python"
+      install-type: "wheel"
+      depends : cython numpy matplotlib h5py nibabel cvxpy tqdm
+      extra-depends: scipy
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: |
+         docker run --rm --privileged hypriot/qemu-register
+    - uses: docker://quay.io/pypa/manylinux2014_aarch64
+      with:
+        args: |
+            bash -c "export PATH=$PATH:"/opt/python/$(matrix.python-version)/bin" && \
+            python -m pip install --upgrade pip virtualenv && \
+            virtualenv $VENV_ARGS venv && \
+            ./tools/ci/install_dependencies.sh && \
+            ./tools/ci/install.sh && \
+            ./tools/ci/run_tests.sh && \
+            deactivate"
