@@ -46,11 +46,13 @@ jobs:
          docker run --rm --privileged hypriot/qemu-register
     - uses: docker://quay.io/pypa/manylinux2014_aarch64
       with:
-        args: |
-            bash -c "cd /home/source_root;
-            python -m pip install --upgrade pip virtualenv && \
-            virtualenv $VENV_ARGS venv && \
-            ./tools/ci/install_dependencies.sh && \
-            ./tools/ci/install.sh && \
-            ./tools/ci/run_tests.sh && \
-            deactivate"
+        args: docker run -v $(pwd):"/home/source_root":rw,z \
+              -e $(id -u) \
+              "quay.io/pypa/manylinux2014_aarch64:latest" \
+              bash -c "cd /home/source_root;
+              python -m pip install --upgrade pip virtualenv && \
+              virtualenv $VENV_ARGS venv && \
+              ./tools/ci/install_dependencies.sh && \
+              ./tools/ci/install.sh && \
+              ./tools/ci/run_tests.sh && \
+              deactivate"
