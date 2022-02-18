@@ -48,7 +48,6 @@ jobs:
       with:
         args: |
             bash -c "cd /home/source_root;
-            export PATH=$PATH:"/opt/python/${{matrix.python-version}}/bin" && \
             python -m pip install --upgrade pip virtualenv && \
             virtualenv $VENV_ARGS venv && \
             ./tools/ci/install_dependencies.sh && \
