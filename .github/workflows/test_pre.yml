@@ -54,4 +54,4 @@ jobs:
               ./tools/ci/install_dependencies.sh && \
               ./tools/ci/install.sh && \
               ./tools/ci/run_tests.sh && \
-              deactivate"
+              deactivate'
