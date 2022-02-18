@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       img: quay.io/pypa/manylinux2014_aarch64
+      py: /opt/python/${{matrix.python-version}}/bin/python
       VENV_ARGS: "--python=python"
       install-type: "wheel"
       depends : cython numpy matplotlib h5py nibabel cvxpy tqdm
@@ -45,10 +46,10 @@ jobs:
     - run: |
          docker run --rm --privileged hypriot/qemu-register
     - run: |
-              docker run -v $(pwd):"/home/source_root":rw,z \
-              -e $(id -u) \
-              "quay.io/pypa/manylinux2014_aarch64:latest" \
-              bash -c "cd /home/source_root;
+              docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+              ${{ env.img }} \
+              bash -exc '${{ env.py }} -m venv .env && \
+              source .env/bin/activate && \
               export PATH=$PATH:"/opt/python/${{matrix.python-version}}/bin" && \
               ./tools/ci/install_dependencies.sh && \
               ./tools/ci/install.sh && \
